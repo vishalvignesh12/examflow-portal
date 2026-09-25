@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          details: Json
+          entity_id: string | null
+          entity_type: string
+          id: number
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          entity_id?: string | null
+          entity_type: string
+          id?: number
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          entity_id?: string | null
+          entity_type?: string
+          id?: number
+        }
+        Relationships: []
+      }
       buildings: {
         Row: {
           code: string
@@ -112,6 +142,187 @@ export type Database = {
         }
         Relationships: []
       }
+      exam_registrations: {
+        Row: {
+          created_at: string
+          exam_id: string
+          id: string
+          status: string
+          student_id: string
+        }
+        Insert: {
+          created_at?: string
+          exam_id: string
+          id?: string
+          status?: string
+          student_id: string
+        }
+        Update: {
+          created_at?: string
+          exam_id?: string
+          id?: string
+          status?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exam_registrations_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
+            referencedRelation: "exams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exam_registrations_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      exam_room_allocations: {
+        Row: {
+          allocated_count: number
+          created_at: string
+          exam_id: string
+          id: string
+          room_id: string
+        }
+        Insert: {
+          allocated_count?: number
+          created_at?: string
+          exam_id: string
+          id?: string
+          room_id: string
+        }
+        Update: {
+          allocated_count?: number
+          created_at?: string
+          exam_id?: string
+          id?: string
+          room_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exam_room_allocations_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
+            referencedRelation: "exams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exam_room_allocations_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      exam_sessions: {
+        Row: {
+          academic_year: string
+          created_at: string
+          end_date: string
+          exam_type: string
+          id: string
+          name: string
+          published_at: string | null
+          start_date: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          academic_year: string
+          created_at?: string
+          end_date: string
+          exam_type?: string
+          id?: string
+          name: string
+          published_at?: string | null
+          start_date: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          academic_year?: string
+          created_at?: string
+          end_date?: string
+          exam_type?: string
+          id?: string
+          name?: string
+          published_at?: string | null
+          start_date?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      exams: {
+        Row: {
+          course_id: string
+          created_at: string
+          duration_minutes: number
+          id: string
+          max_marks: number
+          published_at: string | null
+          seats_generated: boolean
+          session_id: string
+          status: string
+          time_slot_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          course_id: string
+          created_at?: string
+          duration_minutes?: number
+          id?: string
+          max_marks?: number
+          published_at?: string | null
+          seats_generated?: boolean
+          session_id: string
+          status?: string
+          time_slot_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string
+          duration_minutes?: number
+          id?: string
+          max_marks?: number
+          published_at?: string | null
+          seats_generated?: boolean
+          session_id?: string
+          status?: string
+          time_slot_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exams_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exams_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "exam_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exams_time_slot_id_fkey"
+            columns: ["time_slot_id"]
+            isOneToOne: false
+            referencedRelation: "time_slots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       faculty: {
         Row: {
           created_at: string
@@ -161,6 +372,55 @@ export type Database = {
             columns: ["department_id"]
             isOneToOne: false
             referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invigilator_assignments: {
+        Row: {
+          created_at: string
+          duty_role: string
+          exam_id: string
+          faculty_id: string
+          id: string
+          room_id: string
+        }
+        Insert: {
+          created_at?: string
+          duty_role?: string
+          exam_id: string
+          faculty_id: string
+          id?: string
+          room_id: string
+        }
+        Update: {
+          created_at?: string
+          duty_role?: string
+          exam_id?: string
+          faculty_id?: string
+          id?: string
+          room_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invigilator_assignments_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
+            referencedRelation: "exams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invigilator_assignments_faculty_id_fkey"
+            columns: ["faculty_id"]
+            isOneToOne: false
+            referencedRelation: "faculty"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invigilator_assignments_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
             referencedColumns: ["id"]
           },
         ]
@@ -278,6 +538,65 @@ export type Database = {
           },
         ]
       }
+      student_hall_allocations: {
+        Row: {
+          created_at: string
+          exam_id: string
+          exam_registration_id: string
+          id: string
+          room_id: string
+          seat_number: number | null
+          student_id: string
+        }
+        Insert: {
+          created_at?: string
+          exam_id: string
+          exam_registration_id: string
+          id?: string
+          room_id: string
+          seat_number?: number | null
+          student_id: string
+        }
+        Update: {
+          created_at?: string
+          exam_id?: string
+          exam_registration_id?: string
+          id?: string
+          room_id?: string
+          seat_number?: number | null
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_hall_allocations_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
+            referencedRelation: "exams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_hall_allocations_exam_registration_id_fkey"
+            columns: ["exam_registration_id"]
+            isOneToOne: true
+            referencedRelation: "exam_registrations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_hall_allocations_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_hall_allocations_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       students: {
         Row: {
           batch_year: number
@@ -334,6 +653,44 @@ export type Database = {
           },
         ]
       }
+      time_slots: {
+        Row: {
+          created_at: string
+          end_time: string
+          id: string
+          label: string
+          session_id: string
+          slot_date: string
+          start_time: string
+        }
+        Insert: {
+          created_at?: string
+          end_time: string
+          id?: string
+          label?: string
+          session_id: string
+          slot_date: string
+          start_time: string
+        }
+        Update: {
+          created_at?: string
+          end_time?: string
+          id?: string
+          label?: string
+          session_id?: string
+          slot_date?: string
+          start_time?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "time_slots_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "exam_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
@@ -365,6 +722,8 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: never; Returns: boolean }
+      is_self_faculty: { Args: { _faculty_id: string }; Returns: boolean }
+      is_self_student: { Args: { _student_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "ADMIN" | "FACULTY" | "STUDENT"

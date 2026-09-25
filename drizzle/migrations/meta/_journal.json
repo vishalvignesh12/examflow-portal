@@ -8,6 +8,13 @@
       "when": 1790324178875,
       "tag": "0000_examflow_core_master_data",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790324232705,
+      "tag": "0001_examflow_exam_scheduling_allocation",
+      "breakpoints": true
     }
   ]
 }

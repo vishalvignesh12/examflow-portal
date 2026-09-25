@@ -870,6 +870,17 @@ export type Database = {
       }
     }
     Functions: {
+      allocate_exam_sequentially: {
+        Args: {
+          _exam_id: string
+          _generate_seats?: boolean
+          _room_ids: string[]
+        }
+        Returns: {
+          allocated: number
+          unallocated: number
+        }[]
+      }
       allocate_student_to_room: {
         Args: {
           _exam_id: string
@@ -878,6 +889,20 @@ export type Database = {
           _student_id: string
         }
         Returns: string
+      }
+      detect_conflicts: {
+        Args: { _session_id: string }
+        Returns: {
+          conflict_type: string
+          detail: string
+          exam_id: string
+          faculty_id: string
+          room_id: string
+          secondary_id: string
+          severity: string
+          student_id: string
+          subject: string
+        }[]
       }
       has_role: {
         Args: {
@@ -889,6 +914,7 @@ export type Database = {
       is_admin: { Args: never; Returns: boolean }
       is_self_faculty: { Args: { _faculty_id: string }; Returns: boolean }
       is_self_student: { Args: { _student_id: string }; Returns: boolean }
+      publish_exam_session: { Args: { _session_id: string }; Returns: number }
       register_student_for_exam: {
         Args: { _exam_id: string; _student_id: string }
         Returns: string

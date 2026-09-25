@@ -169,8 +169,29 @@ export type Database = {
             foreignKeyName: "exam_registrations_exam_id_fkey"
             columns: ["exam_id"]
             isOneToOne: false
+            referencedRelation: "exam_summary"
+            referencedColumns: ["exam_id"]
+          },
+          {
+            foreignKeyName: "exam_registrations_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
             referencedRelation: "exams"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exam_registrations_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
+            referencedRelation: "student_exam_timetable"
+            referencedColumns: ["exam_id"]
+          },
+          {
+            foreignKeyName: "exam_registrations_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "student_exam_timetable"
+            referencedColumns: ["student_id"]
           },
           {
             foreignKeyName: "exam_registrations_student_id_fkey"
@@ -208,8 +229,29 @@ export type Database = {
             foreignKeyName: "exam_room_allocations_exam_id_fkey"
             columns: ["exam_id"]
             isOneToOne: false
+            referencedRelation: "exam_summary"
+            referencedColumns: ["exam_id"]
+          },
+          {
+            foreignKeyName: "exam_room_allocations_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
             referencedRelation: "exams"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exam_room_allocations_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
+            referencedRelation: "student_exam_timetable"
+            referencedColumns: ["exam_id"]
+          },
+          {
+            foreignKeyName: "exam_room_allocations_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "room_utilization"
+            referencedColumns: ["room_id"]
           },
           {
             foreignKeyName: "exam_room_allocations_room_id_fkey"
@@ -406,8 +448,22 @@ export type Database = {
             foreignKeyName: "invigilator_assignments_exam_id_fkey"
             columns: ["exam_id"]
             isOneToOne: false
+            referencedRelation: "exam_summary"
+            referencedColumns: ["exam_id"]
+          },
+          {
+            foreignKeyName: "invigilator_assignments_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
             referencedRelation: "exams"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invigilator_assignments_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
+            referencedRelation: "student_exam_timetable"
+            referencedColumns: ["exam_id"]
           },
           {
             foreignKeyName: "invigilator_assignments_faculty_id_fkey"
@@ -415,6 +471,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "faculty"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invigilator_assignments_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "room_utilization"
+            referencedColumns: ["room_id"]
           },
           {
             foreignKeyName: "invigilator_assignments_room_id_fkey"
@@ -533,6 +596,13 @@ export type Database = {
             foreignKeyName: "student_course_registrations_student_id_fkey"
             columns: ["student_id"]
             isOneToOne: false
+            referencedRelation: "student_exam_timetable"
+            referencedColumns: ["student_id"]
+          },
+          {
+            foreignKeyName: "student_course_registrations_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
             referencedRelation: "students"
             referencedColumns: ["id"]
           },
@@ -571,8 +641,22 @@ export type Database = {
             foreignKeyName: "student_hall_allocations_exam_id_fkey"
             columns: ["exam_id"]
             isOneToOne: false
+            referencedRelation: "exam_summary"
+            referencedColumns: ["exam_id"]
+          },
+          {
+            foreignKeyName: "student_hall_allocations_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
             referencedRelation: "exams"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_hall_allocations_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
+            referencedRelation: "student_exam_timetable"
+            referencedColumns: ["exam_id"]
           },
           {
             foreignKeyName: "student_hall_allocations_exam_registration_id_fkey"
@@ -585,8 +669,22 @@ export type Database = {
             foreignKeyName: "student_hall_allocations_room_id_fkey"
             columns: ["room_id"]
             isOneToOne: false
+            referencedRelation: "room_utilization"
+            referencedColumns: ["room_id"]
+          },
+          {
+            foreignKeyName: "student_hall_allocations_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
             referencedRelation: "rooms"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_hall_allocations_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "student_exam_timetable"
+            referencedColumns: ["student_id"]
           },
           {
             foreignKeyName: "student_hall_allocations_student_id_fkey"
@@ -711,9 +809,76 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      exam_summary: {
+        Row: {
+          academic_year: string | null
+          allocated_count: number | null
+          course_code: string | null
+          course_title: string | null
+          department_code: string | null
+          duration_minutes: number | null
+          exam_date: string | null
+          exam_id: string | null
+          invigilator_count: number | null
+          registered_count: number | null
+          room_count: number | null
+          session_label: string | null
+          session_name: string | null
+          start_time: string | null
+          status: string | null
+          unallocated_count: number | null
+        }
+        Relationships: []
+      }
+      room_utilization: {
+        Row: {
+          building_code: string | null
+          building_name: string | null
+          capacity: number | null
+          exam_capacity: number | null
+          exams_hosted: number | null
+          room_id: string | null
+          room_number: string | null
+          total_students_seated: number | null
+          utilization_pct: number | null
+        }
+        Relationships: []
+      }
+      student_exam_timetable: {
+        Row: {
+          academic_year: string | null
+          building_name: string | null
+          course_code: string | null
+          course_title: string | null
+          department_code: string | null
+          duration_minutes: number | null
+          end_time: string | null
+          exam_date: string | null
+          exam_id: string | null
+          exam_status: string | null
+          max_marks: number | null
+          register_number: string | null
+          room_number: string | null
+          seat_number: number | null
+          session_label: string | null
+          session_name: string | null
+          start_time: string | null
+          student_id: string | null
+          student_name: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
+      allocate_student_to_room: {
+        Args: {
+          _exam_id: string
+          _room_id: string
+          _seat_number?: number
+          _student_id: string
+        }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -724,6 +889,10 @@ export type Database = {
       is_admin: { Args: never; Returns: boolean }
       is_self_faculty: { Args: { _faculty_id: string }; Returns: boolean }
       is_self_student: { Args: { _student_id: string }; Returns: boolean }
+      register_student_for_exam: {
+        Args: { _exam_id: string; _student_id: string }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "ADMIN" | "FACULTY" | "STUDENT"
